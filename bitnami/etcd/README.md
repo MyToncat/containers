@@ -19,10 +19,10 @@ docker run -it --name etcd bitnami/etcd:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Etcd in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Etcd in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Etcd in Kubernetes?
 
@@ -32,11 +32,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -180,36 +186,36 @@ Apart from providing your custom configuration file, you can also modify the ser
 
 #### Customizable environment variables
 
-| Name                                   | Description                                                                                  | Default Value                       |
-|----------------------------------------|----------------------------------------------------------------------------------------------|-------------------------------------|
-| `ETCD_CFG_DATA_DIR`                    | etcd member name.                                                                            | `$ETCD_DATA_DIR`                    |
-| `ETCD_SNAPSHOTS_DIR`                   | etcd snaphots directory (used on "disaster recovery" feature).                               | `/snapshots`                        |
-| `ETCD_SNAPSHOT_HISTORY_LIMIT`          | etcd snaphots history limit.                                                                 | `1`                                 |
-| `ETCD_INIT_SNAPSHOTS_DIR`              | etcd init snaphots directory (used on "init from snapshot" feature).                         | `/init-snapshot`                    |
-| `ALLOW_NONE_AUTHENTICATION`            | Allow accessing etcd without any password.                                                   | `no`                                |
-| `ETCD_START_FROM_SNAPSHOT`             | Whether etcd should start from an existing snapshot or not.                                  | `no`                                |
-| `ETCD_DISASTER_RECOVERY`               | Whether etcd should try or not to recover from snapshots when the cluste disastrously fails. | `no`                                |
-| `ETCD_ON_K8S`                          | Whether etcd is running on a K8s environment or not.                                         | `no`                                |
-| `ETCDCTL_API`                          | etcdctl API version.                                                                         | `3`                                 |
-| `ETCD_DISABLE_STORE_MEMBER_ID`         | Disable writing the member id in a file.                                                     | `no`                                |
-| `ETCD_DISABLE_PRESTOP`                 | Disable running the pre-stop hook.                                                           | `no`                                |
-| `ETCD_CFG_NAME`                        | etcd member name.                                                                            | `$ETCD_NAME`                        |
-| `ETCD_LOG_LEVEL`                       | etcd log level.                                                                              | `info`                              |
-| `ETCD_CFG_LOG_LEVEL`                   | etcd log level.                                                                              | `$ETCD_LOG_LEVEL`                   |
-| `ETCD_LISTEN_CLIENT_URLS`              | List of URLs to listen on for client traffic.                                                | `http://0.0.0.0:2379`               |
-| `ETCD_CFG_LISTEN_CLIENT_URLS`          | List of URLs to listen on for peer traffic.                                                  | `$ETCD_LISTEN_CLIENT_URLS`          |
-| `ETCD_ADVERTISE_CLIENT_URLS`           | List of this member client URLs to advertise to the rest of the cluster.                     | `http://127.0.0.1:2379`             |
-| `ETCD_CFG_ADVERTISE_CLIENT_URLS`       | List of this member client URLs to advertise to the rest of the cluster.                     | `$ETCD_ADVERTISE_CLIENT_URLS`       |
-| `ETCD_CFG_INITIAL_CLUSTER`             | Initial list of members to bootstrap a cluster.                                              | `$ETCD_INITIAL_CLUSTER`             |
-| `ETCD_CFG_INITIAL_CLUSTER_STATE`       | Initial cluster state. Allowed values: "new" or "existing".                                  | `$ETCD_INITIAL_CLUSTER_STATE`       |
-| `ETCD_CFG_LISTEN_PEER_URLS`            | List of URLs to listen on for peer traffic.                                                  | `$ETCD_LISTEN_PEER_URLS`            |
-| `ETCD_CFG_INITIAL_ADVERTISE_PEER_URLS` | List of this member peer URLs to advertise to the rest of the cluster while bootstrapping.   | `$ETCD_INITIAL_ADVERTISE_PEER_URLS` |
-| `ETCD_CFG_INITIAL_CLUSTER_TOKEN`       | Unique initial cluster token used for bootstrapping.                                         | `$ETCD_INITIAL_CLUSTER_TOKEN`       |
-| `ETCD_AUTO_TLS`                        | Use generated certificates for TLS communications with clients.                              | `false`                             |
-| `ETCD_CFG_AUTO_TLS`                    | Use generated certificates for TLS communications with clients.                              | `$ETCD_AUTO_TLS`                    |
-| `ETCD_CLIENT_CERT_AUTH`                | Enable client cert authentication                                                            | `false`                             |
-| `ETCD_PEER_AUTO_TLS`                   | Use generated certificates for TLS communications with peers.                                | `false`                             |
-| `ETCD_CFG_PEER_AUTO_TLS`               | Use generated certificates for TLS communications with peers.                                | `$ETCD_PEER_AUTO_TLS`               |
+| Name                               | Description                                                                                  | Default Value           |
+|------------------------------------|----------------------------------------------------------------------------------------------|-------------------------|
+| `ETCD_SNAPSHOTS_DIR`               | etcd snaphots directory (used on "disaster recovery" feature).                               | `/snapshots`            |
+| `ETCD_SNAPSHOT_HISTORY_LIMIT`      | etcd snaphots history limit.                                                                 | `1`                     |
+| `ETCD_INIT_SNAPSHOTS_DIR`          | etcd init snaphots directory (used on "init from snapshot" feature).                         | `/init-snapshot`        |
+| `ALLOW_NONE_AUTHENTICATION`        | Allow accessing etcd without any password.                                                   | `no`                    |
+| `ETCD_ROOT_PASSWORD`               | Password for the etcd root user.                                                             | `nil`                   |
+| `ETCD_CLUSTER_DOMAIN`              | Domain to use to discover other etcd members.                                                | `nil`                   |
+| `ETCD_START_FROM_SNAPSHOT`         | Whether etcd should start from an existing snapshot or not.                                  | `no`                    |
+| `ETCD_DISASTER_RECOVERY`           | Whether etcd should try or not to recover from snapshots when the cluste disastrously fails. | `no`                    |
+| `ETCD_ON_K8S`                      | Whether etcd is running on a K8s environment or not.                                         | `no`                    |
+| `ETCD_INIT_SNAPSHOT_FILENAME`      | Existing snapshot filename to start the etcd cluster from.                                   | `nil`                   |
+| `ETCDCTL_API`                      | etcdctl API version.                                                                         | `3`                     |
+| `ETCD_DISABLE_STORE_MEMBER_ID`     | Disable writing the member id in a file.                                                     | `no`                    |
+| `ETCD_DISABLE_PRESTOP`             | Disable running the pre-stop hook.                                                           | `no`                    |
+| `ETCD_NAME`                        | etcd member name.                                                                            | `nil`                   |
+| `ETCD_LOG_LEVEL`                   | etcd log level.                                                                              | `info`                  |
+| `ETCD_LISTEN_CLIENT_URLS`          | List of URLs to listen on for client traffic.                                                | `http://0.0.0.0:2379`   |
+| `ETCD_ADVERTISE_CLIENT_URLS`       | List of this member client URLs to advertise to the rest of the cluster.                     | `http://127.0.0.1:2379` |
+| `ETCD_INITIAL_CLUSTER`             | Initial list of members to bootstrap a cluster.                                              | `nil`                   |
+| `ETCD_INITIAL_CLUSTER_STATE`       | Initial cluster state. Allowed values: "new" or "existing".                                  | `nil`                   |
+| `ETCD_LISTEN_PEER_URLS`            | List of URLs to listen on for peers traffic.                                                 | `nil`                   |
+| `ETCD_INITIAL_ADVERTISE_PEER_URLS` | List of this member peer URLs to advertise to the rest of the cluster while bootstrapping.   | `nil`                   |
+| `ETCD_INITIAL_CLUSTER_TOKEN`       | Unique initial cluster token used for bootstrapping.                                         | `nil`                   |
+| `ETCD_AUTO_TLS`                    | Use generated certificates for TLS communications with clients.                              | `false`                 |
+| `ETCD_CERT_FILE`                   | Path to the client server TLS cert file.                                                     | `nil`                   |
+| `ETCD_KEY_FILE`                    | Path to the client server TLS key file.                                                      | `nil`                   |
+| `ETCD_TRUSTED_CA_FILE`             | Path to the client server TLS trusted CA cert file.                                          | `nil`                   |
+| `ETCD_CLIENT_CERT_AUTH`            | Enable client cert authentication                                                            | `false`                 |
+| `ETCD_PEER_AUTO_TLS`               | Use generated certificates for TLS communications with peers.                                | `false`                 |
 
 #### Read-only environment variables
 
@@ -221,10 +227,8 @@ Apart from providing your custom configuration file, you can also modify the ser
 | `ETCD_DATA_DIR`             | etcd data directory.                                                 | `${ETCD_VOLUME_DIR}/data`          |
 | `ETCD_CONF_DIR`             | etcd configuration directory.                                        | `${ETCD_BASE_DIR}/conf`            |
 | `ETCD_DEFAULT_CONF_DIR`     | etcd default configuration directory.                                | `${ETCD_BASE_DIR}/conf.default`    |
-| `ETCD_LOGS_DIR`             | Directory where ETCD logs are stored.                                | `${ETCD_BASE_DIR}/log`             |
 | `ETCD_TMP_DIR`              | Directory where ETCD temporary files are stored.                     | `${ETCD_BASE_DIR}/tmp`             |
-| `ETCD_PID_FILE`             | Path to the PID file for etcd.                                       | `${ETCD_TMP_DIR}/etcd.pid`         |
-| `ETCD_CONF_FILE`            | Airflow configuration file.                                          | `${ETCD_CONF_DIR}/etcd.yaml`       |
+| `ETCD_CONF_FILE`            | ETCD configuration file.                                             | `${ETCD_CONF_DIR}/etcd.yaml`       |
 | `ETCD_NEW_MEMBERS_ENV_FILE` | File containining the etcd environment to use after adding a member. | `${ETCD_DATA_DIR}/new_member_envs` |
 | `ETCD_DAEMON_USER`          | etcd system user name.                                               | `etcd`                             |
 | `ETCD_DAEMON_GROUP`         | etcd system user group.                                              | `etcd`                             |
@@ -265,7 +269,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2024 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

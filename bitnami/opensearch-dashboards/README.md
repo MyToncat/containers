@@ -19,14 +19,20 @@ docker run -it --name opensearch-dashboards bitnami/opensearch-dashboards:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use OpenSearch Dashboards in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use OpenSearch Dashboards in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -86,30 +92,31 @@ docker run --name opensearch-dashboards bitnami/opensearch-dashboards:latest
 
 #### Customizable environment variables
 
-| Name                                                     | Description                                                                         | Default Value                                                   |
-|----------------------------------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_URL`                   | Opensearch URL. Provide Client node url in the case of a cluster                    | `opensearch`                                                    |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_URL`                   | Opensearch URL. Provide Client node url in the case of a cluster                    | `127.0.0.1`                                                     |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_PORT_NUMBER`           | Elasticsearch port                                                                  | `9200`                                                          |
-| `OPENSEARCH_DASHBOARDS_HOST`                             | Opensearch Dashboards host                                                          | `0.0.0.0`                                                       |
-| `OPENSEARCH_DASHBOARDS_PORT_NUMBER`                      | Opensearch Dashboards port                                                          | `5601`                                                          |
-| `OPENSEARCH_DASHBOARDS_WAIT_READY_MAX_RETRIES`           | Max retries to wait for Opensearch Dashboards to be ready                           | `30`                                                            |
-| `OPENSEARCH_DASHBOARDS_INITSCRIPTS_START_SERVER`         | Whether to start the Opensearch Dashboards server before executing the init scripts | `yes`                                                           |
-| `OPENSEARCH_DASHBOARDS_FORCE_INITSCRIPTS`                | Whether to force the execution of the init scripts                                  | `no`                                                            |
-| `OPENSEARCH_DASHBOARDS_DISABLE_STRICT_CSP`               | Disable strict Content Security Policy (CSP) for Opensearch Dashboards              | `no`                                                            |
-| `OPENSEARCH_DASHBOARDS_CERTS_DIR`                        | Path to certificates folder.                                                        | `${SERVER_CONF_DIR}/certs`                                      |
-| `OPENSEARCH_DASHBOARDS_SERVER_ENABLE_TLS`                | Enable TLS for inbound connections via HTTPS.                                       | `false`                                                         |
-| `OPENSEARCH_DASHBOARDS_SERVER_KEYSTORE_LOCATION`         | Path to Keystore                                                                    | `${SERVER_CERTS_DIR}/server/opensearch-dashboards.keystore.p12` |
-| `OPENSEARCH_DASHBOARDS_SERVER_TLS_USE_PEM`               | Configure Opensearch Dashboards server TLS settings using PEM certificates.         | `false`                                                         |
-| `OPENSEARCH_DASHBOARDS_SERVER_CERT_LOCATION`             | Path to PEM node certificate.                                                       | `${SERVER_CERTS_DIR}/server/tls.crt`                            |
-| `OPENSEARCH_DASHBOARDS_SERVER_KEY_LOCATION`              | Path to PEM node key.                                                               | `${SERVER_CERTS_DIR}/server/tls.key`                            |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_ENABLE_TLS`            | Enable TLS for Opensearch communications.                                           | `false`                                                         |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TLS_VERIFICATION_MODE` | Opensearch TLS verification mode.                                                   | `full`                                                          |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TRUSTSTORE_LOCATION`   | Path to Opensearch Truststore.                                                      | `${SERVER_CERTS_DIR}/opensearch/opensearch.truststore.p12`      |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TLS_USE_PEM`           | Configure Opensearch TLS settings using PEM certificates.                           | `false`                                                         |
-| `OPENSEARCH_DASHBOARDS_OPENSEARCH_CA_CERT_LOCATION`      | Path to Opensearch CA certificate.                                                  | `${SERVER_CERTS_DIR}/opensearch/ca.crt`                         |
-| `APACHE_OPENSEARCH_DASHBOARDS_USERNAME`                  | Kibana user to configure basic authentication                                       | `user`                                                          |
-| `APACHE_OPENSEARCH_DASHBOARDS_PASSWORD`                  | Kibana password to configure basic authentication                                   | `bitnami`                                                       |
+| Name                                                     | Description                                                                                     | Default Value                                                   |
+|----------------------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_URL`                   | Opensearch URL. Provide Client node url in the case of a cluster                                | `opensearch`                                                    |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_PORT_NUMBER`           | Elasticsearch port                                                                              | `9200`                                                          |
+| `OPENSEARCH_DASHBOARDS_HOST`                             | Opensearch Dashboards host                                                                      | `0.0.0.0`                                                       |
+| `OPENSEARCH_DASHBOARDS_PORT_NUMBER`                      | Opensearch Dashboards port                                                                      | `5601`                                                          |
+| `OPENSEARCH_DASHBOARDS_WAIT_READY_MAX_RETRIES`           | Max retries to wait for Opensearch Dashboards to be ready                                       | `30`                                                            |
+| `OPENSEARCH_DASHBOARDS_INITSCRIPTS_START_SERVER`         | Whether to start the Opensearch Dashboards server before executing the init scripts             | `yes`                                                           |
+| `OPENSEARCH_DASHBOARDS_FORCE_INITSCRIPTS`                | Whether to force the execution of the init scripts                                              | `no`                                                            |
+| `OPENSEARCH_DASHBOARDS_DISABLE_STRICT_CSP`               | Disable strict Content Security Policy (CSP) for Opensearch Dashboards                          | `no`                                                            |
+| `OPENSEARCH_DASHBOARDS_CERTS_DIR`                        | Path to certificates folder.                                                                    | `${SERVER_CONF_DIR}/certs`                                      |
+| `OPENSEARCH_DASHBOARDS_SERVER_ENABLE_TLS`                | Enable TLS for inbound connections via HTTPS.                                                   | `false`                                                         |
+| `OPENSEARCH_DASHBOARDS_SERVER_KEYSTORE_LOCATION`         | Path to Keystore                                                                                | `${SERVER_CERTS_DIR}/server/opensearch-dashboards.keystore.p12` |
+| `OPENSEARCH_DASHBOARDS_SERVER_KEYSTORE_PASSWORD`         | Password for the Opensearch keystore containing the certificates or password-protected PEM key. | `nil`                                                           |
+| `OPENSEARCH_DASHBOARDS_SERVER_TLS_USE_PEM`               | Configure Opensearch Dashboards server TLS settings using PEM certificates.                     | `false`                                                         |
+| `OPENSEARCH_DASHBOARDS_SERVER_CERT_LOCATION`             | Path to PEM node certificate.                                                                   | `${SERVER_CERTS_DIR}/server/tls.crt`                            |
+| `OPENSEARCH_DASHBOARDS_SERVER_KEY_LOCATION`              | Path to PEM node key.                                                                           | `${SERVER_CERTS_DIR}/server/tls.key`                            |
+| `OPENSEARCH_DASHBOARDS_SERVER_KEY_PASSWORD`              | Password for the Opensearch node PEM key.                                                       | `nil`                                                           |
+| `OPENSEARCH_DASHBOARDS_PASSWORD`                         | Opensearch Dashboards password.                                                                 | `nil`                                                           |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_ENABLE_TLS`            | Enable TLS for Opensearch communications.                                                       | `false`                                                         |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TLS_VERIFICATION_MODE` | Opensearch TLS verification mode.                                                               | `full`                                                          |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TRUSTSTORE_LOCATION`   | Path to Opensearch Truststore.                                                                  | `${SERVER_CERTS_DIR}/opensearch/opensearch.truststore.p12`      |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TRUSTSTORE_PASSWORD`   | Password for the Opensearch truststore.                                                         | `nil`                                                           |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_TLS_USE_PEM`           | Configure Opensearch TLS settings using PEM certificates.                                       | `false`                                                         |
+| `OPENSEARCH_DASHBOARDS_OPENSEARCH_CA_CERT_LOCATION`      | Path to Opensearch CA certificate.                                                              | `${SERVER_CERTS_DIR}/opensearch/ca.crt`                         |
 
 #### Read-only environment variables
 
@@ -161,7 +168,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2024 Bitnami
+Copyright &copy; 2025 Bitnami
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

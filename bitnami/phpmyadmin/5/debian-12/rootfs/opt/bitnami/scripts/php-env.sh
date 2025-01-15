@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 #
 # Environment configuration for php
@@ -52,6 +52,7 @@ unset php_env_vars
 export PHP_BASE_DIR="${BITNAMI_ROOT_DIR}/php"
 export PHP_BIN_DIR="${PHP_BASE_DIR}/bin"
 export PHP_CONF_DIR="${PHP_BASE_DIR}/etc"
+export PHP_DEFAULT_CONF_DIR="${PHP_BASE_DIR}/etc.default"
 export PHP_TMP_DIR="${PHP_BASE_DIR}/var/run"
 export PHP_CONF_FILE="${PHP_CONF_DIR}/php.ini"
 

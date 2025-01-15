@@ -21,10 +21,10 @@ docker run --name redmine bitnami/redmine:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Redmine in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Redmine in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Redmine in Kubernetes?
 
@@ -32,9 +32,15 @@ Deploying Bitnami applications as Helm Charts is the easiest way to get started 
 
 Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deployment and management of Helm Charts in clusters.
 
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
+
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -201,12 +207,19 @@ docker run -d --name redmine \
 | `REDMINE_LANGUAGE`                 | Redmine site default language.                                                                                                  | `en`                                                                                                        |
 | `REDMINE_REST_API_ENABLED`         | Whether to allow REST API calls to Redmine.                                                                                     | `0`                                                                                                         |
 | `REDMINE_LOAD_DEFAULT_DATA`        | Whether to generate default data for Redmine.                                                                                   | `yes`                                                                                                       |
+| `REDMINE_SKIP_BOOTSTRAP`           | Whether to perform initial bootstrapping for the application.                                                                   | `nil`                                                                                                       |
 | `REDMINE_QUEUE_ADAPTER`            | Active job queue adapter. You may need to install additional dependencies if you select a value other than "async" or "inline". | `inline`                                                                                                    |
 | `REDMINE_USERNAME`                 | Redmine user name.                                                                                                              | `user`                                                                                                      |
 | `REDMINE_PASSWORD`                 | Redmine user password.                                                                                                          | `bitnami1`                                                                                                  |
 | `REDMINE_EMAIL`                    | Redmine user e-mail address.                                                                                                    | `user@example.com`                                                                                          |
 | `REDMINE_FIRST_NAME`               | Redmine user first name.                                                                                                        | `UserName`                                                                                                  |
 | `REDMINE_LAST_NAME`                | Redmine user last name.                                                                                                         | `LastName`                                                                                                  |
+| `REDMINE_SMTP_HOST`                | Redmine SMTP server host.                                                                                                       | `nil`                                                                                                       |
+| `REDMINE_SMTP_PORT_NUMBER`         | Redmine SMTP server port number.                                                                                                | `nil`                                                                                                       |
+| `REDMINE_SMTP_USER`                | Redmine SMTP server user.                                                                                                       | `nil`                                                                                                       |
+| `REDMINE_SMTP_DOMAIN`              | Redmine SMTP domain. USER@ part from SMTP_USER is used when not defined.                                                        | `nil`                                                                                                       |
+| `REDMINE_SMTP_PASSWORD`            | Redmine SMTP server user password.                                                                                              | `nil`                                                                                                       |
+| `REDMINE_SMTP_PROTOCOL`            | Redmine SMTP server protocol to use.                                                                                            | `nil`                                                                                                       |
 | `REDMINE_SMTP_AUTH`                | Redmine SMTP server protocol to use. Allowed values: *login*, *plain*, *cram_md5*.                                              | `login`                                                                                                     |
 | `REDMINE_SMTP_OPENSSL_VERIFY_MODE` | SMTP sets the level of verification for the SSL certificate presented by the server. Allowed values: *none*, *peer*.            | `peer`                                                                                                      |
 | `REDMINE_SMTP_CA_FILE`             | Path to the SMTP CA file.                                                                                                       | `/etc/ssl/certs/ca-certificates.crt`                                                                        |
@@ -215,6 +228,7 @@ docker run -d --name redmine \
 | `REDMINE_DATABASE_PORT_NUMBER`     | Database server port.                                                                                                           | `3306`                                                                                                      |
 | `REDMINE_DATABASE_NAME`            | Database name.                                                                                                                  | `bitnami_redmine`                                                                                           |
 | `REDMINE_DATABASE_USER`            | Database user name.                                                                                                             | `bn_redmine`                                                                                                |
+| `REDMINE_DATABASE_PASSWORD`        | Database user password.                                                                                                         | `nil`                                                                                                       |
 
 #### Read-only environment variables
 
@@ -224,11 +238,8 @@ docker run -d --name redmine \
 | `REDMINE_CONF_DIR`              | Redmine directory for configuration files.         | `${REDMINE_BASE_DIR}/config`    |
 | `REDMINE_VOLUME_DIR`            | Redmine directory for mounted configuration files. | `${BITNAMI_VOLUME_DIR}/redmine` |
 | `REDMINE_DAEMON_USER`           | Redmine system user.                               | `redmine`                       |
-| `REDMINE_DAEMON_USER`           | Redmine system user.                               | `daemon`                        |
 | `REDMINE_DAEMON_GROUP`          | Redmine system group.                              | `redmine`                       |
-| `REDMINE_DAEMON_GROUP`          | Redmine system group.                              | `daemon`                        |
 | `REDMINE_DEFAULT_DATABASE_HOST` | Default database server host.                      | `mariadb`                       |
-| `REDMINE_DEFAULT_DATABASE_HOST` | Default database server host.                      | `127.0.0.1`                     |
 
 When you start the Redmine image, you can adjust the configuration of the instance by passing one or more environment variables either on the docker-compose file or on the `docker run` command line. If you want to add a new environment variable:
 
@@ -455,7 +466,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2024 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

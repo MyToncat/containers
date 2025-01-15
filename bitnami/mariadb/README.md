@@ -21,10 +21,10 @@ docker run --name mariadb -e ALLOW_EMPTY_PASSWORD=yes bitnami/mariadb:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use MariaDB in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use MariaDB in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy MariaDB in Kubernetes?
 
@@ -34,11 +34,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -175,13 +181,34 @@ docker-compose up -d
 | Name                              | Description                                                                                                               | Default Value |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------|---------------|
 | `ALLOW_EMPTY_PASSWORD`            | Allow MariaDB access without any password.                                                                                | `no`          |
+| `MARIADB_AUTHENTICATION_PLUGIN`   | MariaDB authentication plugin to configure during the first initialization.                                               | `nil`         |
 | `MARIADB_ROOT_USER`               | MariaDB database root user.                                                                                               | `root`        |
+| `MARIADB_ROOT_PASSWORD`           | MariaDB database root user password.                                                                                      | `nil`         |
+| `MARIADB_USER`                    | MariaDB database user to create during the first initialization.                                                          | `nil`         |
+| `MARIADB_PASSWORD`                | Password for the MariaDB database user to create during the first initialization.                                         | `nil`         |
+| `MARIADB_DATABASE`                | MariaDB database to create during the first initialization.                                                               | `nil`         |
+| `MARIADB_MASTER_HOST`             | Address for the MariaDB master node.                                                                                      | `nil`         |
 | `MARIADB_MASTER_PORT_NUMBER`      | Port number for the MariaDB master node.                                                                                  | `3306`        |
 | `MARIADB_MASTER_ROOT_USER`        | MariaDB database root user of the master host.                                                                            | `root`        |
+| `MARIADB_MASTER_ROOT_PASSWORD`    | Password for the MariaDB database root user of the the master host.                                                       | `nil`         |
 | `MARIADB_MASTER_DELAY`            | MariaDB database replication delay.                                                                                       | `0`           |
+| `MARIADB_REPLICATION_USER`        | MariaDB replication database user.                                                                                        | `nil`         |
+| `MARIADB_REPLICATION_PASSWORD`    | Password for the MariaDB replication database user.                                                                       | `nil`         |
+| `MARIADB_PORT_NUMBER`             | Port number to use for the MariaDB Server service.                                                                        | `nil`         |
+| `MARIADB_REPLICATION_MODE`        | MariaDB replication mode.                                                                                                 | `nil`         |
 | `MARIADB_REPLICATION_SLAVE_DUMP`  | Make a dump on master and update slave MariaDB database                                                                   | `false`       |
+| `MARIADB_EXTRA_FLAGS`             | Extra flags to be passed to start the MariaDB Server.                                                                     | `nil`         |
+| `MARIADB_INIT_SLEEP_TIME`         | Sleep time when waiting for MariaDB init configuration operations to finish.                                              | `nil`         |
+| `MARIADB_CHARACTER_SET`           | MariaDB collation to use.                                                                                                 | `nil`         |
+| `MARIADB_COLLATE`                 | MariaDB collation to use.                                                                                                 | `nil`         |
+| `MARIADB_BIND_ADDRESS`            | MariaDB bind address.                                                                                                     | `nil`         |
+| `MARIADB_SQL_MODE`                | MariaDB Server SQL modes to enable.                                                                                       | `nil`         |
+| `MARIADB_UPGRADE`                 | MariaDB upgrade option.                                                                                                   | `AUTO`        |
 | `MARIADB_SKIP_TEST_DB`            | Whether to skip creating the test database.                                                                               | `no`          |
 | `MARIADB_CLIENT_ENABLE_SSL`       | Whether to force SSL for connections to the MariaDB database.                                                             | `no`          |
+| `MARIADB_CLIENT_SSL_CA_FILE`      | Path to CA certificate to use for SSL connections to the MariaDB database server.                                         | `nil`         |
+| `MARIADB_CLIENT_SSL_CERT_FILE`    | Path to client public key certificate to use for SSL connections to the MariaDB database server.                          | `nil`         |
+| `MARIADB_CLIENT_SSL_KEY_FILE`     | Path to client private key to use for SSL connections to the MariaDB database server.                                     | `nil`         |
 | `MARIADB_CLIENT_EXTRA_FLAGS`      | Whether to force SSL connections with the "mysql" CLI tool. Useful for applications that rely on the CLI instead of APIs. | `no`          |
 | `MARIADB_STARTUP_WAIT_RETRIES`    | Number of retries waiting for the database to be running.                                                                 | `300`         |
 | `MARIADB_STARTUP_WAIT_SLEEP_TIME` | Sleep time between retries waiting for the database to be running.                                                        | `2`           |
@@ -210,7 +237,6 @@ docker-compose up -d
 | `MARIADB_DEFAULT_PORT_NUMBER`   | Default port number to use for the MariaDB Server service.   | `3306`                          |
 | `MARIADB_DEFAULT_CHARACTER_SET` | Default MariaDB character set.                               | `utf8mb4`                       |
 | `MARIADB_DEFAULT_BIND_ADDRESS`  | Default MariaDB bind address.                                | `0.0.0.0`                       |
-| `MARIADB_DISABLE_SERVICE`       | Whether to disable the MariaDB service by default.           | `no`                            |
 
 ### Initializing a new instance
 
@@ -702,6 +728,8 @@ or using Docker Compose:
 docker-compose up mariadb
 ```
 
+> **Note**: Automatic upgrade behavior at startup can be forced setting the env var `MARIADB_UPGRADE` to `FORCE` (that will run `mysql_upgrade --force`)
+
 ## Useful Links
 
 * [Create An AMP Development Environment With Bitnami Containers
@@ -711,7 +739,11 @@ docker-compose up mariadb
 
 ## Notable Changes
 
-### 10.2.41-debian-10-r12, 10.3.32-debian-10-r13, 10.4.22-debian-10-r13, 10.5.13-debian-10-r14, 10.6.5-debian-10-r13, 10.3.38-r5-debian-11, 10.4.28-r5-debian-11, 10.5.19-r5-debian-11, 10.6.12-r5-debian-11, 10.7.8-r5-debian-11, 10.8.7-r5-debian-11, 10.9.5-r5-debian-11 and 10.10.3-r6-debian-11
+### 10.4.34-debian-12-r4, 10.5.25-debian-12-r4, 10.6.18-debian-12-r4, 10.11.8-debian-12-r4, 11.1.5-debian-12-r4, 11.2.4-debian-12-r3, 11.3.2-debian-12-r8
+
+* `mysql_upgrade` can be forced at startup setting the env var `MARIADB_UPGRADE` to `FORCE`.
+
+### 10.2.41-debian-10-r12, 10.3.32-debian-10-r13, 10.4.22-debian-10-r13, 10.5.13-debian-10-r14, 10.6.5-debian-10-r13, 10.3.38-debian-11-r5, 10.4.28-debian-11-r5, 10.5.19-debian-11-r5, 10.6.12-debian-11-r5, 10.7.8-debian-11-r5, 10.8.7-debian-11-r5, 10.9.5-debian-11-r5 and 10.10.3-debian-11-r6
 
 * The command `mysql_upgrade` no longer includes the flag `--force`. Nonetheless, it can be enabled by using the [mysql_upgrade] option group in the MariaDB configuration.
 
@@ -782,7 +814,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2024 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

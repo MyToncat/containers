@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
 # shellcheck disable=SC1090,SC1091
@@ -26,6 +26,9 @@ appsmith_validate
 trap "appsmith_backend_stop" EXIT
 # Ensure 'appsmith' user exists when running as 'root'
 am_i_root && ensure_user_exists "$APPSMITH_DAEMON_USER" --group "$APPSMITH_DAEMON_GROUP"
+
+debug "Copying files from $NGINX_DEFAULT_CONF_DIR to $NGINX_CONF_DIR"
+cp -nr "$NGINX_DEFAULT_CONF_DIR"/. "$NGINX_CONF_DIR" || true
 
 # Nginx configuration, based on upstream nginx configuration but removing hardcoded references to localhost
 # https://github.com/appsmithorg/appsmith/blob/release/deploy/docker/templates/nginx/nginx-app-http.conf.template.sh#L102

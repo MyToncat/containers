@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 #
 # Environment configuration for appsmith
@@ -77,6 +77,7 @@ export APPSMITH_VOLUME_DIR="/bitnami/appsmith"
 export APPSMITH_LOG_DIR="${APPSMITH_BASE_DIR}/logs"
 export APPSMITH_LOG_FILE="${APPSMITH_LOG_DIR}/appsmith.log"
 export APPSMITH_CONF_DIR="${APPSMITH_BASE_DIR}/conf"
+export APPSMITH_DEFAULT_CONF_DIR="${APPSMITH_BASE_DIR}/conf.default"
 export APPSMITH_CONF_FILE="${APPSMITH_CONF_DIR}/docker.env"
 export APPSMITH_TMP_DIR="${APPSMITH_BASE_DIR}/tmp"
 export APPSMITH_PID_FILE="${APPSMITH_TMP_DIR}/appsmith.pid"
@@ -84,7 +85,7 @@ export APPSMITH_PID_FILE="${APPSMITH_TMP_DIR}/appsmith.pid"
 # Appsmith configuration parameters
 export ALLOW_EMPTY_PASSWORD="${ALLOW_EMPTY_PASSWORD:-no}"
 export APPSMITH_USERNAME="${APPSMITH_USERNAME:-user}" # only used during the first initialization
-export APPSMITH_PASSWORD="${APPSMITH_PASSWORD:-bitnami}" # only used during the first initialization
+export APPSMITH_PASSWORD="${APPSMITH_PASSWORD:-bitnami123}" # only used during the first initialization
 export APPSMITH_EMAIL="${APPSMITH_EMAIL:-user@example.com}" # only used during the first initialization
 export APPSMITH_MODE="${APPSMITH_MODE:-backend}"
 export APPSMITH_ENCRYPTION_PASSWORD="${APPSMITH_ENCRYPTION_PASSWORD:-bitnami123}" # only used during the first initialization

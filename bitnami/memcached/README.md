@@ -19,10 +19,10 @@ docker run --name memcached bitnami/memcached:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Memcached in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Memcached in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Memcached in Kubernetes?
 
@@ -32,11 +32,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -140,29 +146,32 @@ docker-compose up -d
 
 #### Customizable environment variables
 
-| Name                    | Description                                                | Default Value |
-|-------------------------|------------------------------------------------------------|---------------|
-| `MEMCACHED_PORT_NUMBER` | Port number used by Memcached.                             | `11211`       |
-| `MEMCACHED_USERNAME`    | Memcached admin username.                                  | `root`        |
-| `MEMCACHED_MAX_TIMEOUT` | Maximum timeout in seconds for Memcached to start or stop. | `5`           |
+| Name                        | Description                                                            | Default Value |
+|-----------------------------|------------------------------------------------------------------------|---------------|
+| `MEMCACHED_LISTEN_ADDRESS`  | Host that the Memcached service will bind to.                          | `nil`         |
+| `MEMCACHED_PORT_NUMBER`     | Port number used by Memcached.                                         | `11211`       |
+| `MEMCACHED_USERNAME`        | Memcached admin username.                                              | `root`        |
+| `MEMCACHED_PASSWORD`        | Password for the Memcached admin user.                                 | `nil`         |
+| `MEMCACHED_MAX_ITEM_SIZE`   | Memcached maximum item size.                                           | `nil`         |
+| `MEMCACHED_EXTRA_FLAGS`     | Extra flags to be used when running Memcached.                         | `nil`         |
+| `MEMCACHED_MAX_TIMEOUT`     | Maximum timeout in seconds for Memcached to start or stop.             | `5`           |
+| `MEMCACHED_CACHE_SIZE`      | Memcached cache size in MB.                                            | `nil`         |
+| `MEMCACHED_MAX_CONNECTIONS` | Maximum amount of concurrent connections that Memcached will tolerate. | `nil`         |
+| `MEMCACHED_THREADS`         | Amount of process threads that Memcached will use.                     | `nil`         |
 
 #### Read-only environment variables
 
-| Name                         | Description                                 | Value                                 |
-|------------------------------|---------------------------------------------|---------------------------------------|
-| `MEMCACHED_BASE_DIR`         | Memcached installation directory.           | `${BITNAMI_ROOT_DIR}/memcached`       |
-| `MEMCACHED_CONF_DIR`         | Memcached configuration directory.          | `${MEMCACHED_BASE_DIR}/conf`          |
-| `MEMCACHED_DEFAULT_CONF_DIR` | Memcached configuration directory.          | `${MEMCACHED_BASE_DIR}/conf.default`  |
-| `MEMCACHED_BIN_DIR`          | Memcached directory for binary executables. | `${MEMCACHED_BASE_DIR}/bin`           |
-| `MEMCACHED_TMP_DIR`          | Memcached directory for temporary files.    | `${MEMCACHED_BASE_DIR}/tmp`           |
-| `MEMCACHED_LOGS_DIR`         | Memcached directory for logs.               | `${MEMCACHED_BASE_DIR}/logs`          |
-| `MEMCACHED_LOG_FILE`         | Path to the Memcached log file.             | `${MEMCACHED_LOGS_DIR}/memcached.log` |
-| `MEMCACHED_PID_FILE`         | Path to the Memcached PID file.             | `${MEMCACHED_TMP_DIR}/memcached.pid`  |
-| `SASL_CONF_PATH`             | Memcached SASL configuration directory.     | `${MEMCACHED_CONF_DIR}/sasl2`         |
-| `SASL_CONF_FILE`             | Memcached SASL configuration                | `${SASL_CONF_PATH}/memcached.conf`    |
-| `SASL_DB_FILE`               | Memcached SASL database file.               | `${SASL_CONF_PATH}/memcachedsasldb`   |
-| `MEMCACHED_DAEMON_USER`      | Memcached system user.                      | `memcached`                           |
-| `MEMCACHED_DAEMON_GROUP`     | Memcached system group.                     | `memcached`                           |
+| Name                         | Description                                 | Value                                |
+|------------------------------|---------------------------------------------|--------------------------------------|
+| `MEMCACHED_BASE_DIR`         | Memcached installation directory.           | `${BITNAMI_ROOT_DIR}/memcached`      |
+| `MEMCACHED_CONF_DIR`         | Memcached configuration directory.          | `${MEMCACHED_BASE_DIR}/conf`         |
+| `MEMCACHED_DEFAULT_CONF_DIR` | Memcached configuration directory.          | `${MEMCACHED_BASE_DIR}/conf.default` |
+| `MEMCACHED_BIN_DIR`          | Memcached directory for binary executables. | `${MEMCACHED_BASE_DIR}/bin`          |
+| `SASL_CONF_PATH`             | Memcached SASL configuration directory.     | `${MEMCACHED_CONF_DIR}/sasl2`        |
+| `SASL_CONF_FILE`             | Memcached SASL configuration                | `${SASL_CONF_PATH}/memcached.conf`   |
+| `SASL_DB_FILE`               | Memcached SASL database file.               | `${SASL_CONF_PATH}/memcachedsasldb`  |
+| `MEMCACHED_DAEMON_USER`      | Memcached system user.                      | `memcached`                          |
+| `MEMCACHED_DAEMON_GROUP`     | Memcached system group.                     | `memcached`                          |
 
 ### Specify the cache size
 

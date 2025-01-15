@@ -21,10 +21,10 @@ docker run --name redis -e ALLOW_EMPTY_PASSWORD=yes bitnami/redis:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Redis&reg; in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Redis&reg; in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Redis(R) in Kubernetes?
 
@@ -34,11 +34,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -176,17 +182,36 @@ docker-compose up -d
 |----------------------------------|--------------------------------------------------|--------------------------------------------|
 | `REDIS_DATA_DIR`                 | Redis data directory                             | `${REDIS_VOLUME_DIR}/data`                 |
 | `REDIS_OVERRIDES_FILE`           | Redis config overrides file                      | `${REDIS_MOUNTED_CONF_DIR}/overrides.conf` |
+| `REDIS_DISABLE_COMMANDS`         | Commands to disable in Redis                     | `nil`                                      |
 | `REDIS_DATABASE`                 | Default Redis database                           | `redis`                                    |
 | `REDIS_AOF_ENABLED`              | Enable AOF                                       | `yes`                                      |
-| `REDIS_RDB_POLICY_DISABLED`      | Allows to enable RDP policy persistence          | `no`                                       |
+| `REDIS_RDB_POLICY`               | Enable RDB policy persitence                     | `nil`                                      |
+| `REDIS_RDB_POLICY_DISABLED`      | Allows to enable RDB policy persistence          | `no`                                       |
+| `REDIS_MASTER_HOST`              | Redis master host (used by slaves)               | `nil`                                      |
 | `REDIS_MASTER_PORT_NUMBER`       | Redis master host port (used by slaves)          | `6379`                                     |
 | `REDIS_PORT_NUMBER`              | Redis port number                                | `$REDIS_DEFAULT_PORT_NUMBER`               |
 | `REDIS_ALLOW_REMOTE_CONNECTIONS` | Allow remote connection to the service           | `yes`                                      |
+| `REDIS_REPLICATION_MODE`         | Redis replication mode (values: master, slave)   | `nil`                                      |
+| `REDIS_REPLICA_IP`               | The replication announce ip                      | `nil`                                      |
+| `REDIS_REPLICA_PORT`             | The replication announce port                    | `nil`                                      |
+| `REDIS_EXTRA_FLAGS`              | Additional flags pass to 'redis-server' commands | `nil`                                      |
 | `ALLOW_EMPTY_PASSWORD`           | Allow password-less access                       | `no`                                       |
+| `REDIS_PASSWORD`                 | Password for Redis                               | `nil`                                      |
+| `REDIS_MASTER_PASSWORD`          | Redis master node password                       | `nil`                                      |
+| `REDIS_ACLFILE`                  | Redis ACL file                                   | `nil`                                      |
+| `REDIS_IO_THREADS_DO_READS`      | Enable multithreading when reading socket        | `nil`                                      |
+| `REDIS_IO_THREADS`               | Number of threads                                | `nil`                                      |
 | `REDIS_TLS_ENABLED`              | Enable TLS                                       | `no`                                       |
 | `REDIS_TLS_PORT_NUMBER`          | Redis TLS port (requires REDIS_ENABLE_TLS=yes)   | `6379`                                     |
+| `REDIS_TLS_CERT_FILE`            | Redis TLS certificate file                       | `nil`                                      |
+| `REDIS_TLS_CA_DIR`               | Directory containing TLS CA certificates         | `nil`                                      |
+| `REDIS_TLS_KEY_FILE`             | Redis TLS key file                               | `nil`                                      |
+| `REDIS_TLS_KEY_FILE_PASS`        | Redis TLS key file passphrase                    | `nil`                                      |
+| `REDIS_TLS_CA_FILE`              | Redis TLS CA file                                | `nil`                                      |
+| `REDIS_TLS_DH_PARAMS_FILE`       | Redis TLS DH parameter file                      | `nil`                                      |
 | `REDIS_TLS_AUTH_CLIENTS`         | Enable Redis TLS client authentication           | `yes`                                      |
-| `REDIS_DISABLE_SERVICE`          | Whether to disable the Redis service by default. | `no`                                       |
+| `REDIS_SENTINEL_MASTER_NAME`     | Redis Sentinel master name                       | `nil`                                      |
+| `REDIS_SENTINEL_HOST`            | Redis Sentinel host                              | `nil`                                      |
 | `REDIS_SENTINEL_PORT_NUMBER`     | Redis Sentinel host port (used by slaves)        | `26379`                                    |
 
 #### Read-only environment variables
@@ -566,6 +591,35 @@ services:
   ...
 ```
 
+### Enable Redis(R) RDB persistence
+
+When the value of `REDIS_RDB_POLICY_DISABLED` is `no` (default value) the Redis(R) default persistence strategy will be used. If you want to modify the default strategy, you can configure it through the `REDIS_RDB_POLICY` parameter. Here is a demonstration of modifying the default persistence strategy
+
+1. Using `docker run`
+
+    ```console
+    $ docker run --name redis \
+        -v /path/to/redis-data-persistence:/bitnami/redis/data \
+        -e ALLOW_EMPTY_PASSWORD=yes \
+        -e REDIS_RDB_POLICY_DISABLED=no
+        -e REDIS_RDB_POLICY="900#1 600#5 300#10 120#50 60#1000 30#10000"
+        bitnami/redis:latest
+    ```
+
+2. Modifying the `docker-compose.yml` file present in this repository:
+
+    ```yaml
+      redis:
+      ...
+        environment:
+          ...
+          - REDIS_TLS_ENABLED=yes
+          - REDIS_RDB_POLICY_DISABLED=no
+          - REDIS_RDB_POLICY="900#1 600#5 300#10 120#50 60#1000 30#10000"
+        ...
+      ...
+    ```
+
 ## Logging
 
 The Bitnami Redis(R) Docker image sends the container logs to the `stdout`. To view the logs:
@@ -699,7 +753,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2024 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

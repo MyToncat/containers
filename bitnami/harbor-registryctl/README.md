@@ -20,10 +20,10 @@ docker run --name harbor-registryctl bitnami/harbor-registryctl:latest
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Harbor Registryctl in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Harbor Registryctl in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Harbor in Kubernetes?
 
@@ -33,11 +33,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -55,19 +61,12 @@ For further information about the specific component itself, please refer to the
 
 #### Read-only environment variables
 
-| Name                                | Description                                                                   | Value                                                   |
-|-------------------------------------|-------------------------------------------------------------------------------|---------------------------------------------------------|
-| `HARBOR_REGISTRYCTL_BASE_DIR`       | harbor-registryctl installation directory.                                    | `${BITNAMI_ROOT_DIR}/harbor-registryctl`                |
-| `HARBOR_REGISTRYCTL_VOLUME_DIR`     | harbor-registry volume directory.                                             | `${BITNAMI_VOLUME_DIR}/harbor-registry`                 |
-| `HARBOR_REGISTRYCTL_STORAGE_DIR`    | harbor-registry storage directory.                                            | `${HARBOR_REGISTRYCTL_VOLUME_DIR}/storage`              |
-| `HARBOR_REGISTRYCTL_STORAGE_DIR`    | harbor-registry storage directory.                                            | `/storage`                                              |
-| `HARBOR_REGISTRYCTL_LOGS_DIR`       | harbor-registryctl logs directory.                                            | `${HARBOR_REGISTRYCTL_BASE_DIR}/logs`                   |
-| `HARBOR_REGISTRYCTL_TMP_DIR`        | harbor-registryctl directory for temporary files.                             | `${HARBOR_REGISTRYCTL_BASE_DIR}/tmp`                    |
-| `HARBOR_REGISTRYCTL_DAEMON_USER`    | harbor-registryctl system user.                                               | `harbor`                                                |
-| `HARBOR_REGISTRYCTL_DAEMON_GROUP`   | harbor-registryctl system group.                                              | `harbor`                                                |
-| `HARBOR_REGISTRYCTL_PID_FILE`       | PID file for harbor-registryctl service.                                      | `${HARBOR_REGISTRYCTL_TMP_DIR}/harbor-registryctl.pid`  |
-| `HARBOR_REGISTRYCTL_LOG_FILE`       | Log file for harbor-registryctl service.                                      | `${HARBOR_REGISTRYCTL_LOGS_DIR}/harbor-registryctl.log` |
-| `HARBOR_REGISTRYCTL_EXTRA_ENV_FILE` | File to store extra environment variables for the harbor-registryctl service. | `${HARBOR_REGISTRYCTL_BASE_DIR}/.env`                   |
+| Name                              | Description                                | Value                                    |
+|-----------------------------------|--------------------------------------------|------------------------------------------|
+| `HARBOR_REGISTRYCTL_BASE_DIR`     | harbor-registryctl installation directory. | `${BITNAMI_ROOT_DIR}/harbor-registryctl` |
+| `HARBOR_REGISTRYCTL_STORAGE_DIR`  | harbor-registry storage directory.         | `/storage`                               |
+| `HARBOR_REGISTRYCTL_DAEMON_USER`  | harbor-registryctl system user.            | `harbor`                                 |
+| `HARBOR_REGISTRYCTL_DAEMON_GROUP` | harbor-registryctl system group.           | `harbor`                                 |
 
 ## Notable Changes
 

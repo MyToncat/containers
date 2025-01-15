@@ -23,10 +23,10 @@ You can find the available configuration options in the [Environment Variables](
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
 * Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
 * All our images are based on [**minideb**](https://github.com/bitnami/minideb) -a minimalist Debian based container image that gives you a small base container image and the familiarity of a leading Linux distribution- or **scratch** -an explicitly empty image-.
-* All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
+* All Bitnami images available in Docker Hub are signed with [Notation](https://notaryproject.dev/). [Check this post](https://blog.bitnami.com/2024/03/bitnami-packaged-containers-and-helm.html) to know how to verify the integrity of the images.
 * Bitnami container images are released on a regular basis with the latest distribution packages available.
 
-Looking to use Apache Spark in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the enterprise edition of Bitnami Application Catalog.
+Looking to use Apache Spark in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
 
 ## How to deploy Apache Spark in Kubernetes?
 
@@ -36,11 +36,17 @@ Bitnami containers can be used with [Kubeapps](https://kubeapps.dev/) for deploy
 
 ## Why use a non-root container?
 
-Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/tutorials/work-with-non-root-containers/).
+Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-work-with-non-root-containers-index.html).
+
+## Only latest stable branch maintained in the free Bitnami catalog
+
+Starting December 10th 2024, only the latest stable branch of any container will receive updates in the free Bitnami catalog. To access up-to-date releases for all upstream-supported branches, consider upgrading to Bitnami Premium. Previous versions already released will not be deleted. They are still available to pull from DockerHub.
+
+Please check the Bitnami Premium page in our partner [Arrow Electronics](https://www.arrow.com/globalecs/na/vendors/bitnami?utm_source=GitHub&utm_medium=containers) for more information.
 
 ## Supported tags and respective `Dockerfile` links
 
-Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/tutorials/understand-rolling-tags-containers/).
+Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
 
 You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
 
@@ -82,13 +88,18 @@ docker build -t bitnami/APP:latest .
 | `SPARK_MASTER_URL`                       | Url where the worker can find the master. Only needed when spark mode is worker. | `spark://spark-master:7077`                    |
 | `SPARK_NO_DAEMONIZE`                     | Spark does not run as a daemon.                                                  | `true`                                         |
 | `SPARK_RPC_AUTHENTICATION_ENABLED`       | Enable RPC authentication.                                                       | `no`                                           |
+| `SPARK_RPC_AUTHENTICATION_SECRET`        | The secret key used for RPC authentication.                                      | `nil`                                          |
 | `SPARK_RPC_ENCRYPTION_ENABLED`           | Enable RPC encryption.                                                           | `no`                                           |
 | `SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED` | Enable local storage encryption.                                                 | `no`                                           |
 | `SPARK_SSL_ENABLED`                      | Enable SSL configuration.                                                        | `no`                                           |
+| `SPARK_SSL_KEY_PASSWORD`                 | The password to the private key in the key store.                                | `nil`                                          |
+| `SPARK_SSL_KEYSTORE_PASSWORD`            | The password for the key store.                                                  | `nil`                                          |
 | `SPARK_SSL_KEYSTORE_FILE`                | Location of the key store.                                                       | `${SPARK_CONF_DIR}/certs/spark-keystore.jks`   |
+| `SPARK_SSL_TRUSTSTORE_PASSWORD`          | The password for the trust store.                                                | `nil`                                          |
 | `SPARK_SSL_TRUSTSTORE_FILE`              | Location of the key store.                                                       | `${SPARK_CONF_DIR}/certs/spark-truststore.jks` |
 | `SPARK_SSL_NEED_CLIENT_AUTH`             | Whether to require client authentication.                                        | `yes`                                          |
 | `SPARK_SSL_PROTOCOL`                     | TLS protocol to use.                                                             | `TLSv1.2`                                      |
+| `SPARK_WEBUI_SSL_PORT`                   | Spark management server port number for SSL/TLS connections.                     | `nil`                                          |
 | `SPARK_METRICS_ENABLED`                  | Whether to enable metrics for Spark.                                             | `false`                                        |
 
 #### Read-only environment variables
